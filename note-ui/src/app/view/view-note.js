@@ -27,10 +27,23 @@
   ViewNoteController.$inject = ['$scope', '$timeout', '$location', 'noteService'];
   function ViewNoteController($scope, $timeout, $location, noteService) {
     var vm = this;
+    var selectedNote = null;
+
     vm.subject = "";
     vm.editedContent = "";
 
     vm.editNote = editNote;
+
+    listSelectedNote();
+
+    function listSelectedNote() {
+      selectedNote = noteService.getSelectedNote();
+      
+      if(selectedNote) {
+        vm.subject = selectedNote.subject;
+        vm.editedContent = selectedNote.content;
+      }
+    }
 
     function editNote() {
 

@@ -18,6 +18,7 @@
   var API_BASE = 'http://54.254.198.177:3000/api';
   var LIST_NOTES_URL = API_BASE + '/notes';
   var CREATE_NOTE_URL = API_BASE + '/note';
+  var GET_NOTE_URL = API_BASE + '/note/{subject}';
 
   angular.module( 'note-application', _DEPENDENCIES)
          .config(appConfig)
@@ -48,11 +49,18 @@
   noteService.$inject = ['$http', '$q', '$timeout', '$location'];
   function noteService($http, $q, $timeout, $location) {
     var notes = [];
+    var selectedNote = null;
 
     return {
+      getSelectedNote: getSelectedNote,
       listNotes: listNotes,
-      createNote: createNote
+      createNote: createNote,
+      viewNote: viewNote
     };
+
+    function getSelectedNote() {
+      return selectedNote;
+    }
 
     function listNotes() {
       return $q(function(resolve, reject) {
@@ -79,6 +87,24 @@
 
           $timeout(function () {
             $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
+    }
+
+    function viewNote(subject) {
+      var url = GET_NOTE_URL.replace('{subject}', subject);
+
+      $http.get(url).then(
+        function(response) {
+          console.log("Note retrieved successfully");
+          selectedNote = response.data.data;
+
+          $timeout(function () {
+            $location.path("/view-note");
           }, 0);
         },
         function(error) {

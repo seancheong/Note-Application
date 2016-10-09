@@ -34,6 +34,7 @@
     var vm = this;
     vm.notes = [];
     vm.goToCreateNew = goToCreateNew;
+    vm.viewNote = viewNote;
 
     listNotes();
 
@@ -47,6 +48,10 @@
       $timeout(function () {
         $location.path("/create-new");
       }, 0);
+    }
+
+    function viewNote(subject) {
+      noteService.viewNote(subject);
     }
   }
 
