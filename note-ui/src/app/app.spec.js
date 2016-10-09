@@ -26,6 +26,7 @@ describe('test note-application-project service', function() {
   var API_BASE = 'http://54.254.198.177:3000/api';
   var LIST_NOTES_URL = API_BASE + '/notes';
   var CREATE_NOTE_URL = API_BASE + '/note';
+  var GET_NOTE_URL = API_BASE + '/note/testSubject';
 
   beforeEach( inject( function(_noteService_, $rootScope, $httpBackend, $timeout, $location) {
     noteService = _noteService_;
@@ -125,5 +126,44 @@ describe('test note-application-project service', function() {
     timeout.flush();
 
     expect(location.path).not.toHaveBeenCalledWith('/home');
+  });
+
+  it('should change location to view-note when viewNote is called successfully', function() {
+    var subject = "testSubject";
+
+    httpBackend.expectGET(GET_NOTE_URL).respond(
+      {
+        "status": "success",
+        "data": {
+          "subject": "testSubject",
+          "content": "this is my first note",
+          "version": 1
+        },
+        "message": "Retrieved one note"
+      }
+    );
+
+    spyOn(location, 'path');
+    noteService.viewNote(subject);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).toHaveBeenCalledWith('/view-note');
+    expect(noteService.getSelectedNote().subject).toBe("testSubject");
+    expect(noteService.getSelectedNote().content).toBe("this is my first note");
+    expect(noteService.getSelectedNote().version).toBe(1);
+  });
+
+  it('should not change location when viewNote is returned failed', function() {
+    var subject = "testSubject";
+
+    httpBackend.expectGET(GET_NOTE_URL).respond(500, '');
+
+    spyOn(location, 'path');
+    noteService.viewNote(subject);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).not.toHaveBeenCalledWith('/view-note');
   });
 });
