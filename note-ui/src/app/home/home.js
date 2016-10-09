@@ -29,10 +29,11 @@
     });
   }
 
-  HomeController.$inject = ['$scope', 'noteService'];
-  function HomeController($scope, noteService) {
+  HomeController.$inject = ['$scope', '$timeout', '$location', 'noteService'];
+  function HomeController($scope, $timeout, $location, noteService) {
     var vm = this;
     vm.notes = [];
+    vm.goToCreateNew = goToCreateNew;
 
     listNotes();
 
@@ -40,6 +41,12 @@
       noteService.listNotes().then(function(notes) {
         vm.notes = notes;
       });
+    }
+
+    function goToCreateNew() {
+      $timeout(function () {
+        $location.path("/create-new");
+      }, 0);
     }
   }
 

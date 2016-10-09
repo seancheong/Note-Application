@@ -5,6 +5,7 @@
     'templates-app',
     'templates-common',
     'note-application.home',
+    'note-application.create-new',
     'note-application-project',
     'ui.router'
   ];
@@ -15,6 +16,7 @@
 
   var API_BASE = 'http://54.254.198.177:3000/api';
   var LIST_NOTES_URL = API_BASE + '/notes';
+  var CREATE_NOTE_URL = API_BASE + '/note';
 
   angular.module( 'note-application', _DEPENDENCIES)
          .config(appConfig)
@@ -42,12 +44,13 @@
   angular.module('note-application-project', _PROJECT_DEPENDENCIES)
          .factory('noteService', noteService);
 
-  noteService.$inject = ['$http', '$q'];
-  function noteService($http, $q) {
+  noteService.$inject = ['$http', '$q', '$timeout', '$location'];
+  function noteService($http, $q, $timeout, $location) {
     var notes = [];
 
     return {
-      listNotes: listNotes
+      listNotes: listNotes,
+      createNote: createNote
     };
 
     function listNotes() {
@@ -61,6 +64,26 @@
           reject(error);
         });
       });
+    }
+
+    function createNote(newSubject, newContent) {
+      var data = {
+        subject: newSubject,
+        content: newContent
+      };
+
+      $http.post(CREATE_NOTE_URL, data).then(
+        function(response) {
+          console.log("Note created successfully");
+
+          $timeout(function () {
+            $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
     }
   }
 
