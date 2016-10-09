@@ -1,0 +1,27 @@
+<form>
+  <div class="form-group">
+    <label for="subject">Subject</label>
+    <input
+      type="text"
+      class="form-control read-only-input"
+      id="subject"
+      placeholder="Subject"
+      ng-model="vm.subject"
+      readonly>
+  </div>
+  <div class="form-group">
+    <label for="content">Content</label>
+    <input
+      type="text"
+      class="form-control"
+      id="content"
+      placeholder="Content"
+      ng-model="vm.editedContent">
+  </div>
+  <button
+    type="submit"
+    class="btn btn-default"
+    ng-click="vm.editNote()">
+    Edit Note
+  </button>
+</form>

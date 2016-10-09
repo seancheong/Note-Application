@@ -6,6 +6,7 @@
     'templates-common',
     'note-application.home',
     'note-application.create-new',
+    'note-application.view-note',
     'note-application-project',
     'ui.router'
   ];
