@@ -27,6 +27,8 @@ describe('test note-application-project service', function() {
   var LIST_NOTES_URL = API_BASE + '/notes';
   var CREATE_NOTE_URL = API_BASE + '/note';
   var GET_NOTE_URL = API_BASE + '/note/testSubject';
+  var EDIT_NOTE_URL = API_BASE + '/note';
+  var REMOVE_NOTE_URL = API_BASE + '/delete-note';
 
   beforeEach( inject( function(_noteService_, $rootScope, $httpBackend, $timeout, $location) {
     noteService = _noteService_;
@@ -165,5 +167,68 @@ describe('test note-application-project service', function() {
     timeout.flush();
 
     expect(location.path).not.toHaveBeenCalledWith('/view-note');
+  });
+
+  it('should change location to home when editNote is called successfully', function() {
+    var subject = "testSubject";
+    var content = "testContent";
+
+    httpBackend.expectPUT(EDIT_NOTE_URL).respond(
+      {
+        "status": "success",
+        "message": "Updated note"
+      }
+    );
+
+    spyOn(location, 'path');
+    noteService.editNote(subject, content);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).toHaveBeenCalledWith('/home');
+  });
+
+  it('should not change location when editNote is returned failed', function() {
+    var subject = "testSubject";
+    var content = "testContent";
+
+    httpBackend.expectPUT(EDIT_NOTE_URL).respond(500, '');
+
+    spyOn(location, 'path');
+    noteService.editNote(subject, content);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).not.toHaveBeenCalledWith('/home');
+  });
+
+  it('should return the correct response when removeNote is called successfully', function() {
+    httpBackend.expectPOST(REMOVE_NOTE_URL).respond(
+      {
+        "status": "success",
+        "message": "Removed note"
+      }
+    );
+
+    noteService.removeNote().then(function(response) {
+      expect(response.status).toBe(200);
+      expect(response.data.status).toBe("success");
+      expect(response.data.message).toBe("Removed note");
+    });
+    httpBackend.flush();
+  });
+
+  it('should return error status when an error happens in removeNote', function() {
+    httpBackend.expectPOST(REMOVE_NOTE_URL).respond(500, '');
+
+    noteService.removeNote().then(
+      function(notes) {
+
+      },
+      function(error) {
+        expect(error.status).toBe(500);
+      }
+    );
+    httpBackend.flush();
   });
 });

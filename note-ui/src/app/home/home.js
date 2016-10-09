@@ -35,6 +35,7 @@
     vm.notes = [];
     vm.goToCreateNew = goToCreateNew;
     vm.viewNote = viewNote;
+    vm.removeNote = removeNote;
 
     listNotes();
 
@@ -52,6 +53,17 @@
 
     function viewNote(subject) {
       noteService.viewNote(subject);
+    }
+
+    function removeNote(subject) {
+      noteService.removeNote(subject).then(
+        function(response) {
+          listNotes();
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
     }
   }
 

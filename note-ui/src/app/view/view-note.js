@@ -38,7 +38,7 @@
 
     function listSelectedNote() {
       selectedNote = noteService.getSelectedNote();
-      
+
       if(selectedNote) {
         vm.subject = selectedNote.subject;
         vm.editedContent = selectedNote.content;
@@ -46,7 +46,7 @@
     }
 
     function editNote() {
-
+      noteService.editNote(vm.subject, vm.editedContent);
     }
   }
 

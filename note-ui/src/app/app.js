@@ -19,6 +19,8 @@
   var LIST_NOTES_URL = API_BASE + '/notes';
   var CREATE_NOTE_URL = API_BASE + '/note';
   var GET_NOTE_URL = API_BASE + '/note/{subject}';
+  var EDIT_NOTE_URL = API_BASE + '/note';
+  var REMOVE_NOTE_URL = API_BASE + '/delete-note';
 
   angular.module( 'note-application', _DEPENDENCIES)
          .config(appConfig)
@@ -55,7 +57,9 @@
       getSelectedNote: getSelectedNote,
       listNotes: listNotes,
       createNote: createNote,
-      viewNote: viewNote
+      viewNote: viewNote,
+      editNote: editNote,
+      removeNote: removeNote
     };
 
     function getSelectedNote() {
@@ -111,6 +115,44 @@
           console.log(error);
         }
       );
+    }
+
+    function editNote(subject, content) {
+      var data = {
+        subject: subject,
+        content: content
+      };
+
+      $http.put(EDIT_NOTE_URL, data).then(
+        function(response) {
+          console.log("Note edited successfully");
+
+          $timeout(function () {
+            $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
+    }
+
+    function removeNote(subject) {
+      return $q(function(resolve, reject) {
+        var data = {
+          subject: subject
+        };
+
+        $http.post(REMOVE_NOTE_URL, data).then(
+          function(response) {
+            console.log("Note removed successfully");
+            resolve(response);
+          },
+          function(error) {
+            reject(error);
+          }
+        );
+      });
     }
   }
 

@@ -16,7 +16,12 @@
           ng-click="vm.viewNote(note.subject)">
           View
         </button>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          ng-click="vm.removeNote(note.subject)">
+          Delete
+        </button>
       </div>
     </li>
   </ul>
