@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="note-application" ng-controller="AppCtrl">
+  <head>
+    <title ng-bind="pageTitle"></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- font awesome from BootstrapCDN -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+  </head>
+  <body>
+
+    <div class="container" ui-view="main"></div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <p>
+            2016 <a href="http://seancodinglab.com/">Sean's coding lab</a>.
+            <br />
+            The UI is based on
+            <a href="http://www.angularjs.org">AngularJS</a>,
+            and
+            <a href="http://getbootstrap.com">Bootstrap</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
