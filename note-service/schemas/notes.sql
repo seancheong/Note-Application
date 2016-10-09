@@ -1,8 +1,7 @@
 \c noteapp_db;
 
 CREATE TABLE notes (
-  ID SERIAL PRIMARY KEY,
-  subject VARCHAR,
+  subject VARCHAR PRIMARY KEY,
   content VARCHAR,
   version INTEGER
 );
