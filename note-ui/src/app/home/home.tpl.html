@@ -4,5 +4,18 @@
   <p class="lead">
     A simple application to manage notes.
   </p>
-
+</div>
+<div class="notes-container">
+  <ul class="list-group">
+    <li ng-repeat="note in vm.notes" class="list-group-item">
+      {{note.subject}}
+      <div class="list-button-group">
+        <button type="button" class="btn btn-info">View</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </li>
+  </ul>
+  <div class="list-button-group">
+    <button type="button" class="btn btn-primary">Create New</button>
+  </div>
 </div>
