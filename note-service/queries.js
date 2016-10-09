@@ -34,7 +34,7 @@ function listNotes(req, res, next) {
 }
 
 function getNote(req, res, next) {
-  db.one('select * from notes where subject = $1', req.body.subject)
+  db.one('select * from notes where subject = $1', req.params.subject)
     .then(function (data) {
       res.status(200)
         .json({

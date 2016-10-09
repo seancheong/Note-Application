@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/api/notes', db.listNotes);
 
 // get single note
-router.get('/api/note', db.getNote);
+router.get('/api/note/:subject', db.getNote);
 
 // create new note
 router.post('/api/note', db.createNote);
