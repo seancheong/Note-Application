@@ -4,10 +4,37 @@
  * build process will exclude all `.spec.js` files from the build
  * automatically.
  */
-describe( 'home section', function() {
-  beforeEach( module( 'note-application.home' ) );
+describe( 'home', function() {
+  beforeEach( module('note-application.home'));
+  beforeEach( module('note-application-project'));
 
-  it( 'should have a dummy test', inject( function() {
-    expect( true ).toBeTruthy();
+  var HomeController, timeout, location, scope, httpBackend, noteService;
+
+  // API URLs
+  var API_BASE = 'http://54.254.198.177:3000/api';
+  var LIST_NOTES_URL = API_BASE + '/notes';
+  var CREATE_NOTE_URL = API_BASE + '/note';
+
+  beforeEach( inject( function( $controller, $timeout, $location, $rootScope, $httpBackend, _noteService_ ) {
+    timeout = $timeout;
+    location = $location;
+    scope = $rootScope.$new();
+    httpBackend = $httpBackend;
+    noteService = _noteService_;
+    HomeController = $controller( 'HomeController', { $timeout: timeout, $location: location, $scope: scope, noteService: noteService });
   }));
+
+  it('should pass a dummy test', inject( function() {
+    expect( HomeController ).toBeTruthy();
+  }));
+
+  it('should go to create-new page when goToCreateNew is called', function() {
+    httpBackend.expectGET(LIST_NOTES_URL).respond(500, '');
+
+    spyOn(location, 'path');
+    HomeController.goToCreateNew();
+    timeout.flush();
+
+    expect(location.path).toHaveBeenCalledWith('/create-new');
+  });
 });
