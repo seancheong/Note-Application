@@ -22,6 +22,6 @@ router.post('/api/note', db.createNote);
 router.put('/api/note', db.updateNote);
 
 // remove single note
-router.delete('/api/note', db.removeNote);
+router.post('/api/delete-note', db.removeNote);
 
 module.exports = router;
