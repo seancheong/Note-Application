@@ -10,10 +10,10 @@ router.get('/', function(req, res, next) {
 });
 
 // list all notes
-router.get('/api/notes', isLoggedIn, db.listNotes);
+router.post('/api/notes', isLoggedIn, db.listNotes);
 
 // get single note
-router.get('/api/note/:subject', isLoggedIn, db.getNote);
+router.post('/api/view-note/:subject', isLoggedIn, db.getNote);
 
 // create new note
 router.post('/api/note', isLoggedIn, db.createNote);
@@ -25,7 +25,7 @@ router.put('/api/note', isLoggedIn, db.updateNote);
 router.post('/api/delete-note', isLoggedIn, db.removeNote);
 
 function isLoggedIn(req, res, next) {
-  if(req.isAuthenticated()) {
+  if(req.body.usernameSession) {
     return next();
   }
   console.log("user didn't log in");

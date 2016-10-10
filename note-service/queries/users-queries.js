@@ -16,8 +16,8 @@ module.exports = {
 function createUser(req, res, next) {
   console.log("creating user");
   db.none('insert into users(username, password)' +
-      'values(${username}, ${password})',
-    req.body)
+      'values($1, $2)',
+    [req.body.username, req.body.password])
     .then(function () {
       // log in newly created user
       passport.authenticate('local')
@@ -25,6 +25,7 @@ function createUser(req, res, next) {
       res.status(200)
         .json({
           status: 'success',
+          data: req.body.username,
           message: 'user created'
         });
     })

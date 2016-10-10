@@ -13,6 +13,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
   res.status(200)
     .json({
       status: 'success',
+      data: req.user.username,
       message: 'login successfully'
     });
 });
