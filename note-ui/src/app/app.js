@@ -8,19 +8,24 @@
     'note-application.create-new',
     'note-application.view-note',
     'note-application-project',
+    'note-application.login',
+    'note-application.register',
     'ui.router'
   ];
 
   var _PROJECT_DEPENDENCIES = [
-
+    'note-application.persistence'
   ];
 
-  var API_BASE = 'http://54.254.198.177:3000/api';
-  var LIST_NOTES_URL = API_BASE + '/notes';
-  var CREATE_NOTE_URL = API_BASE + '/note';
-  var GET_NOTE_URL = API_BASE + '/note/{subject}';
-  var EDIT_NOTE_URL = API_BASE + '/note';
-  var REMOVE_NOTE_URL = API_BASE + '/delete-note';
+  var API_BASE = 'http://54.254.198.177:3000';
+  var LIST_NOTES_URL = API_BASE + '/api/notes';
+  var CREATE_NOTE_URL = API_BASE + '/api/note';
+  var GET_NOTE_URL = API_BASE + '/api/view-note/{subject}';
+  var EDIT_NOTE_URL = API_BASE + '/api/note';
+  var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
+  var LOGOUT_URL = API_BASE + '/users/logout';
+  var LOGIN_URL = API_BASE + '/users/login';
+  var REGISTER_URL = API_BASE + '/users/register';
 
   angular.module( 'note-application', _DEPENDENCIES)
          .config(appConfig)
@@ -33,13 +38,17 @@
     $urlRouterProvider.otherwise( '/home' );
   }
 
-  AppCtrl.$inject = ['$scope', '$location'];
-  function AppCtrl( $scope, $location) {
+  AppCtrl.$inject = ['$scope', '$location', 'noteService'];
+  function AppCtrl( $scope, $location, noteService) {
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
       if ( angular.isDefined( toState.data.pageTitle ) ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Note Application' ;
       }
     });
+
+    $scope.logout = function() {
+      noteService.logout();
+    };
   }
 
   /*
@@ -48,8 +57,8 @@
   angular.module('note-application-project', _PROJECT_DEPENDENCIES)
          .factory('noteService', noteService);
 
-  noteService.$inject = ['$http', '$q', '$timeout', '$location'];
-  function noteService($http, $q, $timeout, $location) {
+  noteService.$inject = ['$http', '$q', '$timeout', '$location', 'SessionPersistenceService'];
+  function noteService($http, $q, $timeout, $location, PersistenceService) {
     var notes = [];
     var selectedNote = null;
 
@@ -59,7 +68,10 @@
       createNote: createNote,
       viewNote: viewNote,
       editNote: editNote,
-      removeNote: removeNote
+      removeNote: removeNote,
+      logout: logout,
+      login: login,
+      register: register
     };
 
     function getSelectedNote() {
@@ -67,8 +79,12 @@
     }
 
     function listNotes() {
+      var data = {
+        usernameSession: PersistenceService.getUserSession()
+      };
+
       return $q(function(resolve, reject) {
-        $http.get(LIST_NOTES_URL).then(function(response) {
+        $http.post(LIST_NOTES_URL, data).then(function(response) {
           notes = response.data.data;
           console.log("Succesfully listed all notes: " + notes);
           resolve(notes);
@@ -82,7 +98,8 @@
     function createNote(newSubject, newContent) {
       var data = {
         subject: newSubject,
-        content: newContent
+        content: newContent,
+        usernameSession: PersistenceService.getUserSession()
       };
 
       $http.post(CREATE_NOTE_URL, data).then(
@@ -102,7 +119,11 @@
     function viewNote(subject) {
       var url = GET_NOTE_URL.replace('{subject}', subject);
 
-      $http.get(url).then(
+      var data = {
+        usernameSession: PersistenceService.getUserSession()
+      };
+
+      $http.post(url, data).then(
         function(response) {
           console.log("Note retrieved successfully");
           selectedNote = response.data.data;
@@ -120,7 +141,8 @@
     function editNote(subject, content) {
       var data = {
         subject: subject,
-        content: content
+        content: content,
+        usernameSession: PersistenceService.getUserSession()
       };
 
       $http.put(EDIT_NOTE_URL, data).then(
@@ -140,7 +162,8 @@
     function removeNote(subject) {
       return $q(function(resolve, reject) {
         var data = {
-          subject: subject
+          subject: subject,
+          usernameSession: PersistenceService.getUserSession()
         };
 
         $http.post(REMOVE_NOTE_URL, data).then(
@@ -153,6 +176,67 @@
           }
         );
       });
+    }
+
+    function logout() {
+      $http.post(LOGOUT_URL).then(
+        function(response) {
+          console.log("Logout successfully");
+
+          PersistenceService.remove();
+
+          $timeout(function () {
+            $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
+    }
+
+    function login(username, password) {
+      var data = {
+        username: username,
+        password: password
+      };
+
+      $http.post(LOGIN_URL, data).then(
+        function(response) {
+          console.log("Login successfully");
+
+          PersistenceService.save(response.data.data);
+
+          $timeout(function () {
+            $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
+    }
+
+    function register(username, password) {
+      var data = {
+        username: username,
+        password: password
+      };
+
+      $http.post(REGISTER_URL, data).then(
+        function(response) {
+          console.log("Register successfully");
+
+          PersistenceService.save(response.data.data);
+
+          $timeout(function () {
+            $location.path("/home");
+          }, 0);
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
     }
   }
 

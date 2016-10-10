@@ -16,7 +16,7 @@ describe( 'view-note', function() {
     ViewNoteController = $controller( 'ViewNoteController', { $scope: scope, noteService: noteService });
   }));
 
-  it('should pass a dummy test', inject( function() {
+  it('should initialize the controller', inject( function() {
     expect( ViewNoteController ).toBeTruthy();
   }));
 });

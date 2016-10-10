@@ -24,12 +24,12 @@ describe( 'home', function() {
     HomeController = $controller( 'HomeController', { $timeout: timeout, $location: location, $scope: scope, noteService: noteService });
   }));
 
-  it('should pass a dummy test', inject( function() {
+  it('should initialize the controller', inject( function() {
     expect( HomeController ).toBeTruthy();
   }));
 
   it('should go to create-new page when goToCreateNew is called', function() {
-    httpBackend.expectGET(LIST_NOTES_URL).respond(500, '');
+    httpBackend.expectPOST(LIST_NOTES_URL).respond(500, '');
 
     spyOn(location, 'path');
     HomeController.goToCreateNew();
