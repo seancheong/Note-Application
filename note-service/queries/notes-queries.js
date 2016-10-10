@@ -19,7 +19,7 @@ module.exports = {
 };
 
 function listNotes(req, res, next) {
-  db.any('select * from notes')
+  db.any('select * from notes where username = $1', req.user.username)
     .then(function (data) {
       res.status(200)
         .json({
@@ -34,7 +34,8 @@ function listNotes(req, res, next) {
 }
 
 function getNote(req, res, next) {
-  db.one('select * from notes where subject = $1', req.params.subject)
+  db.one('select * from notes where subject = $1 and username = $2',
+    [req.params.subject, req.user.username])
     .then(function (data) {
       res.status(200)
         .json({
@@ -49,9 +50,9 @@ function getNote(req, res, next) {
 }
 
 function createNote(req, res, next) {
-  db.none('insert into notes(subject, content, version)' +
-      'values(${subject}, ${content}, 1)',
-    req.body)
+  db.none('insert into notes(subject, content, version, username)' +
+      'values($1, $2, 1, $3)',
+    [req.body.content, req.body.subject, req.user.username])
     .then(function () {
       res.status(200)
         .json({
@@ -65,8 +66,8 @@ function createNote(req, res, next) {
 }
 
 function updateNote(req, res, next) {
-  db.none('update notes set content=$1, version=version+1 where subject=$2',
-    [req.body.content, req.body.subject])
+  db.none('update notes set content=$1, version=version+1 where subject=$2 and username=$3',
+    [req.body.content, req.body.subject, req.user.username])
     .then(function () {
       res.status(200)
         .json({
@@ -80,7 +81,8 @@ function updateNote(req, res, next) {
 }
 
 function removeNote(req, res, next) {
-  db.result('delete from notes where subject = $1', req.body.subject)
+  db.result('delete from notes where subject = $1 and username = $2',
+    [req.body.subject, req.user.username])
     .then(function (result) {
       res.status(200)
         .json({

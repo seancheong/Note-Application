@@ -9,8 +9,6 @@ router.post('/register', db.createUser);
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
   console.log("login success");
-  
-  console.log(req.user);
 
   res.status(200)
     .json({
