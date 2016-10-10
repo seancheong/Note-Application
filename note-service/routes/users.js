@@ -1,9 +1,32 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+// postgres queries
+var db = require('../queries/users-queries');
+
+router.post('/register', db.createUser);
+
+router.post('/login', passport.authenticate('local'), function(req, res) {
+  console.log("login success");
+  
+  console.log(req.user);
+
+  res.status(200)
+    .json({
+      status: 'success',
+      message: 'login successfully'
+    });
+});
+
+router.post('/logout', function(req, res) {
+  req.logout();
+
+  res.status(200)
+    .json({
+      status: 'success',
+      message: 'logout successfully'
+    });
 });
 
 module.exports = router;

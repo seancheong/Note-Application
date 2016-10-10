@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-// postgres queries
-var db = require('../queries');
+// postgres notes queries
+var db = require('../queries/notes-queries');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,18 +10,31 @@ router.get('/', function(req, res, next) {
 });
 
 // list all notes
-router.get('/api/notes', db.listNotes);
+router.get('/api/notes', isLoggedIn, db.listNotes);
 
 // get single note
-router.get('/api/note/:subject', db.getNote);
+router.get('/api/note/:subject', isLoggedIn, db.getNote);
 
 // create new note
-router.post('/api/note', db.createNote);
+router.post('/api/note', isLoggedIn, db.createNote);
 
 // update single note
-router.put('/api/note', db.updateNote);
+router.put('/api/note', isLoggedIn, db.updateNote);
 
 // remove single note
-router.post('/api/delete-note', db.removeNote);
+router.post('/api/delete-note', isLoggedIn, db.removeNote);
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  console.log("user didn't log in");
+
+  res.status(401)
+    .json({
+      status: 'error',
+      message: 'please login first'
+    });
+}
 
 module.exports = router;
