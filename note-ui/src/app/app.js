@@ -11,11 +11,13 @@
     'note-application.login',
     'note-application.register',
     'note-application.persistence',
-    'ui.router'
+    'ui.router',
+    'angular-growl'
   ];
 
   var _PROJECT_DEPENDENCIES = [
-    'note-application.persistence'
+    'note-application.persistence',
+    'angular-growl'
   ];
 
   var API_BASE = 'http://54.254.198.177:3000';
@@ -34,9 +36,15 @@
          })
          .controller('AppCtrl', AppCtrl);
 
-  appConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-  function appConfig($stateProvider, $urlRouterProvider) {
+  appConfig.$inject = ['$stateProvider', '$urlRouterProvider', 'growlProvider'];
+  function appConfig($stateProvider, $urlRouterProvider, growlProvider) {
     $urlRouterProvider.otherwise( '/home' );
+
+    // growlProvider.globalDisableIcons(true);
+    growlProvider.onlyUniqueMessages(true);
+    growlProvider.globalDisableCountDown(true);
+    growlProvider.globalPosition('top-right');
+    growlProvider.globalTimeToLive(5000);
   }
 
   AppCtrl.$inject = ['$scope', '$location', 'noteService', 'SessionPersistenceService'];
@@ -79,8 +87,8 @@
   angular.module('note-application-project', _PROJECT_DEPENDENCIES)
          .factory('noteService', noteService);
 
-  noteService.$inject = ['$rootScope', '$http', '$q', '$timeout', '$location', 'SessionPersistenceService'];
-  function noteService($rootScope, $http, $q, $timeout, $location, PersistenceService) {
+  noteService.$inject = ['$rootScope', '$http', '$q', '$timeout', '$location', 'growl', 'SessionPersistenceService'];
+  function noteService($rootScope, $http, $q, $timeout, $location, growl, PersistenceService) {
     var notes = [];
     var selectedNote = null;
 
@@ -141,6 +149,10 @@
         },
         function(error) {
           console.log(error);
+
+          if(error.data) {
+            growl.error(error.data.message);
+          }
         }
       );
     }
@@ -163,6 +175,10 @@
         },
         function(error) {
           console.log(error);
+
+          if(error.data) {
+            growl.error(error.data.message);
+          }
         }
       );
     }
@@ -184,6 +200,10 @@
         },
         function(error) {
           console.log(error);
+
+          if(error.data) {
+            growl.error(error.data.message);
+          }
         }
       );
     }
@@ -202,6 +222,10 @@
           },
           function(error) {
             reject(error);
+
+            if(error.data) {
+              growl.error(error.data.message);
+            }
           }
         );
       });
@@ -248,6 +272,7 @@
         },
         function(error) {
           console.log(error);
+          growl.error("Invalid Login, incorrect username or password");
         }
       );
     }
@@ -273,6 +298,7 @@
         },
         function(error) {
           console.log(error);
+          growl.error("Invalid registration, please try another username");
         }
       );
     }

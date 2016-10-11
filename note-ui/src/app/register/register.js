@@ -24,8 +24,8 @@
     });
   }
 
-  RegisterController.$inject = ['$scope', 'noteService'];
-  function RegisterController($scope, noteService) {
+  RegisterController.$inject = ['$scope', 'growl', 'noteService'];
+  function RegisterController($scope, growl, noteService) {
     var vm = this;
     vm.username = "";
     vm.password = "";
@@ -37,6 +37,8 @@
     function register() {
       if(isPasswordMatch()) {
         noteService.register(vm.username, vm.password);
+      } else {
+        growl.error("Password entered does not match with confirmation password, please try again");
       }
     }
 
