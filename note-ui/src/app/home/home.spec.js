@@ -15,6 +15,8 @@ describe( 'home', function() {
   var LIST_NOTES_URL = API_BASE + '/notes';
   var CREATE_NOTE_URL = API_BASE + '/note';
 
+  var testNotes = ['testNote1', 'testNote2'];
+
   beforeEach( inject( function( $controller, $timeout, $location, $rootScope, $httpBackend, _noteService_ ) {
     timeout = $timeout;
     location = $location;
@@ -36,5 +38,21 @@ describe( 'home', function() {
     timeout.flush();
 
     expect(location.path).toHaveBeenCalledWith('/create-new');
+  });
+
+  it('should empty the notes when userSession is broadcasted with false', function() {
+    HomeController.notes = testNotes;
+
+    scope.$broadcast('userSession', false);
+    expect(HomeController.notes.length).toBe(0);
+  });
+
+  it('should not empty the notes when userSession is broadcasted with true', function() {
+    HomeController.notes = testNotes;
+
+    scope.$broadcast('userSession', true);
+    expect(HomeController.notes.length).toBe(2);
+    expect(HomeController.notes[0]).toBe('testNote1');
+    expect(HomeController.notes[1]).toBe('testNote2');
   });
 });

@@ -13,6 +13,14 @@ describe( 'AppCtrl', function() {
     it( 'should initialize the controller', inject( function() {
       expect( AppCtrl ).toBeTruthy();
     }));
+
+    it('should set $scope.isLoggedIn to the correct value when userSession is broadcasted', function() {
+      $scope.$broadcast('userSession', true);
+      expect($scope.isLoggedIn).toBe(true);
+
+      $scope.$broadcast('userSession', false);
+      expect($scope.isLoggedIn).toBe(false);
+    });
   });
 });
 
@@ -34,6 +42,7 @@ describe('test note-application-project service', function() {
   var GET_NOTE_URL = API_BASE + '/api/view-note/testSubject';
   var EDIT_NOTE_URL = API_BASE + '/api/note';
   var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
+  var LOGOUT_URL = API_BASE + '/users/logout';
   var LOGIN_URL = API_BASE + '/users/login';
   var REGISTER_URL = API_BASE + '/users/register';
 
@@ -43,11 +52,19 @@ describe('test note-application-project service', function() {
     httpBackend = $httpBackend;
     timeout = $timeout;
     location = $location;
+
+    spyOn(location, 'path');
   }));
 
   afterEach(function() {
     httpBackend.verifyNoOutstandingExpectation();
     httpBackend.verifyNoOutstandingRequest();
+  });
+
+  it('should redirect user to home page when backToHome is called', function() {
+    noteService.backToHome();
+    timeout.flush();
+    expect(location.path).toHaveBeenCalledWith('/home');
   });
 
   it('should return all the correct notes when listNotes is called', function() {
@@ -112,7 +129,6 @@ describe('test note-application-project service', function() {
       }
     );
 
-    spyOn(location, 'path');
     noteService.createNote(subject, content);
     httpBackend.flush();
     timeout.flush();
@@ -123,7 +139,6 @@ describe('test note-application-project service', function() {
   it('should not change location when createNote is returned failed', function() {
     httpBackend.expectPOST(CREATE_NOTE_URL).respond(500, '');
 
-    spyOn(location, 'path');
     noteService.createNote(subject, content);
     httpBackend.flush();
     timeout.flush();
@@ -144,7 +159,6 @@ describe('test note-application-project service', function() {
       }
     );
 
-    spyOn(location, 'path');
     noteService.viewNote(subject);
     httpBackend.flush();
     timeout.flush();
@@ -158,7 +172,6 @@ describe('test note-application-project service', function() {
   it('should not change location when viewNote is returned failed', function() {
     httpBackend.expectPOST(GET_NOTE_URL).respond(500, '');
 
-    spyOn(location, 'path');
     noteService.viewNote(subject);
     httpBackend.flush();
     timeout.flush();
@@ -174,7 +187,6 @@ describe('test note-application-project service', function() {
       }
     );
 
-    spyOn(location, 'path');
     noteService.editNote(subject, content);
     httpBackend.flush();
     timeout.flush();
@@ -185,7 +197,6 @@ describe('test note-application-project service', function() {
   it('should not change location when editNote is returned failed', function() {
     httpBackend.expectPUT(EDIT_NOTE_URL).respond(500, '');
 
-    spyOn(location, 'path');
     noteService.editNote(subject, content);
     httpBackend.flush();
     timeout.flush();
@@ -231,7 +242,6 @@ describe('test note-application-project service', function() {
       }
     );
 
-    spyOn(location, 'path');
     noteService.login(username, password);
     httpBackend.flush();
     timeout.flush();
@@ -242,8 +252,32 @@ describe('test note-application-project service', function() {
   it('should not redirect to home page when login is unsuccessful', function() {
     httpBackend.expectPOST(LOGIN_URL).respond(500, '');
 
-    spyOn(location, 'path');
     noteService.login(username, password);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).not.toHaveBeenCalledWith('/home');
+  });
+
+  it('should redirect to home page when logout is successful', function() {
+    httpBackend.expectPOST(LOGOUT_URL).respond(
+      {
+        "status": "success",
+        "message": "Logout successfully"
+      }
+    );
+
+    noteService.logout(username, password);
+    httpBackend.flush();
+    timeout.flush();
+
+    expect(location.path).toHaveBeenCalledWith('/home');
+  });
+
+  it('should not redirect to home page when logout is unsuccessful', function() {
+    httpBackend.expectPOST(LOGOUT_URL).respond(500, '');
+
+    noteService.logout(username, password);
     httpBackend.flush();
     timeout.flush();
 
@@ -258,7 +292,6 @@ describe('test note-application-project service', function() {
       }
     );
 
-    spyOn(location, 'path');
     noteService.register(username, password);
     httpBackend.flush();
     timeout.flush();
@@ -269,7 +302,6 @@ describe('test note-application-project service', function() {
   it('should not redirect to home page when register is unsuccessful', function() {
     httpBackend.expectPOST(REGISTER_URL).respond(500, '');
 
-    spyOn(location, 'path');
     noteService.register(username, password);
     httpBackend.flush();
     timeout.flush();

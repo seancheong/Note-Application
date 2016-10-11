@@ -40,7 +40,6 @@
   function appConfig($stateProvider, $urlRouterProvider, growlProvider) {
     $urlRouterProvider.otherwise( '/home' );
 
-    // growlProvider.globalDisableIcons(true);
     growlProvider.onlyUniqueMessages(true);
     growlProvider.globalDisableCountDown(true);
     growlProvider.globalPosition('top-right');
