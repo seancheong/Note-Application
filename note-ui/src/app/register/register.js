@@ -29,17 +29,23 @@
     var vm = this;
     vm.username = "";
     vm.password = "";
-    vm.passwordConfirmation = "";
+    vm.passwordConfirm = "";
 
     vm.register = register;
     vm.backToHome = backToHome;
 
     function register() {
-      noteService.register(vm.username, vm.password);
+      if(isPasswordMatch()) {
+        noteService.register(vm.username, vm.password);
+      }
     }
 
     function backToHome() {
       noteService.backToHome();
+    }
+
+    function isPasswordMatch() {
+      return vm.password === vm.passwordConfirm;
     }
   }
 

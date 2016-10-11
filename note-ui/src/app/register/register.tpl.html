@@ -1,30 +1,57 @@
-<form class="form-container">
-  <div class="form-group">
+<form class="form-container" name="registerForm" novalidate>
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
     <label for="username">Username</label>
     <input
       type="text"
       class="form-control"
       id="username"
+      name="username"
       placeholder="Username"
-      ng-model="vm.username">
+      ng-model="vm.username"
+      required>
+    <p
+      ng-show="registerForm.username.$invalid && !registerForm.username.$pristine"
+      class="help-block">
+      Enter a username
+    </p>
   </div>
-  <div class="form-group">
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine }">
     <label for="password">Password</label>
     <input
       type="password"
       class="form-control"
       id="password"
+      name="password"
       placeholder="Password"
-      ng-model="vm.password">
+      ng-model="vm.password"
+      required>
+    <p
+      ng-show="registerForm.password.$invalid && !registerForm.password.$pristine"
+      class="help-block">
+      Enter a password
+    </p>
   </div>
-  <div class="form-group">
-    <label for="passwordConfirmation">Password Confirmation</label>
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : registerForm.passwordConfirm.$invalid && !registerForm.passwordConfirm.$pristine }">
+    <label for="passwordConfirm">Password Confirm</label>
     <input
       type="password"
       class="form-control"
-      id="passwordConfirmation"
-      placeholder="Password Confirmation"
-      ng-model="vm.passwordConfirmation">
+      id="passwordConfirm"
+      name="passwordConfirm"
+      placeholder="Password Confirm"
+      ng-model="vm.passwordConfirm"
+      required>
+    <p
+      ng-show="registerForm.passwordConfirm.$invalid && !registerForm.passwordConfirm.$pristine"
+      class="help-block">
+      Enter a password confirm
+    </p>
   </div>
   <div class="buttons-group">
     <button
@@ -36,7 +63,8 @@
     <button
       type="submit"
       class="btn btn-primary"
-      ng-click="vm.register()">
+      ng-click="vm.register()"
+      ng-disabled="registerForm.$invalid">
       Register
     </button>
   </div>
