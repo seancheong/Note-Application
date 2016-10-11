@@ -109,9 +109,7 @@
     }
 
     function backToHome() {
-      $timeout(function () {
-        $location.path("/home");
-      }, 0);
+      redirectTo('/home');
     }
 
     function listNotes() {
@@ -142,16 +140,10 @@
         function(response) {
           console.log("Note created successfully");
 
-          $timeout(function () {
-            $location.path("/home");
-          }, 0);
+          redirectTo('/home');
         },
         function(error) {
-          console.log(error);
-
-          if(error.data) {
-            growl.error(error.data.message);
-          }
+          handleError(error);
         }
       );
     }
@@ -168,16 +160,10 @@
           console.log("Note retrieved successfully");
           selectedNote = response.data.data;
 
-          $timeout(function () {
-            $location.path("/view-note");
-          }, 0);
+          redirectTo('/view-note');
         },
         function(error) {
-          console.log(error);
-
-          if(error.data) {
-            growl.error(error.data.message);
-          }
+          handleError(error);
         }
       );
     }
@@ -193,16 +179,10 @@
         function(response) {
           console.log("Note edited successfully");
 
-          $timeout(function () {
-            $location.path("/home");
-          }, 0);
+          redirectTo('/home');
         },
         function(error) {
-          console.log(error);
-
-          if(error.data) {
-            growl.error(error.data.message);
-          }
+          handleError(error);
         }
       );
     }
@@ -221,10 +201,7 @@
           },
           function(error) {
             reject(error);
-
-            if(error.data) {
-              growl.error(error.data.message);
-            }
+            handleError(error);
           }
         );
       });
@@ -240,9 +217,7 @@
           // broadcast to tell that user is logged out
           $rootScope.$broadcast('userSession', false);
 
-          $timeout(function () {
-            $location.path("/home");
-          }, 0);
+          redirectTo('/home');
         },
         function(error) {
           console.log(error);
@@ -265,9 +240,7 @@
           // broadcast to tell that user is logged in
           $rootScope.$broadcast('userSession', true);
 
-          $timeout(function () {
-            $location.path("/home");
-          }, 0);
+          redirectTo('/home');
         },
         function(error) {
           console.log(error);
@@ -291,15 +264,27 @@
           // broadcast to tell that user is logged in
           $rootScope.$broadcast('userSession', true);
 
-          $timeout(function () {
-            $location.path("/home");
-          }, 0);
+          redirectTo('/home');
         },
         function(error) {
           console.log(error);
           growl.error("Invalid registration, please try another username");
         }
       );
+    }
+
+    function redirectTo(path) {
+      $timeout(function () {
+        $location.path(path);
+      }, 0);
+    }
+
+    function handleError(error) {
+      console.log(error);
+
+      if(error.data) {
+        growl.error(error.data.message);
+      }
     }
   }
 
