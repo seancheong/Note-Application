@@ -52,7 +52,7 @@ function getNote(req, res, next) {
 function createNote(req, res, next) {
   db.none('insert into notes(subject, content, version, username)' +
       'values($1, $2, 1, $3)',
-    [req.body.content, req.body.subject, req.body.usernameSession])
+    [req.body.subject, req.body.content, req.body.usernameSession])
     .then(function () {
       res.status(200)
         .json({
