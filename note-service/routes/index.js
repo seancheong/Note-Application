@@ -33,7 +33,7 @@ function isLoggedIn(req, res, next) {
   res.status(401)
     .json({
       status: 'error',
-      message: 'please login first'
+      message: 'Unauthorized access, please login'
     });
 }
 
