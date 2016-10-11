@@ -1,22 +1,40 @@
-<form>
-  <div class="form-group">
+<form name="createNewForm" novalidate>
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : createNewForm.subject.$invalid && !createNewForm.subject.$pristine }">
     <label for="subject">Subject</label>
     <input
       type="text"
       class="form-control"
       id="subject"
+      name="subject"
       placeholder="Subject"
-      ng-model="vm.newSubject">
+      ng-model="vm.newSubject"
+      required>
+    <p
+      ng-show="createNewForm.subject.$invalid && !createNewForm.subject.$pristine"
+      class="help-block">
+      Enter a subject
+    </p>
   </div>
-  <div class="form-group">
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : createNewForm.content.$invalid && !createNewForm.content.$pristine }">
     <label for="content">Content</label>
     <textarea
       class="form-control"
       rows="5"
       id="content"
+      name="content"
       placeholder="Content"
-      ng-model="vm.newContent">
+      ng-model="vm.newContent"
+      required>
     </textarea>
+    <p
+      ng-show="createNewForm.content.$invalid && !createNewForm.content.$pristine"
+      class="help-block">
+      Content cannot be emptied
+    </p>
   </div>
   <div class="buttons-group">
     <button
@@ -28,7 +46,8 @@
     <button
       type="submit"
       class="btn btn-primary"
-      ng-click="vm.createNote()">
+      ng-click="vm.createNote()"
+      ng-disabled="createNewForm.$invalid">
       Submit
     </button>
   </div>
