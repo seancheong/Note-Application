@@ -29,7 +29,11 @@ function listNotes(req, res, next) {
         });
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500)
+        .json({
+          status: 'error',
+          message: err.detail
+        });
     });
 }
 
@@ -45,7 +49,11 @@ function getNote(req, res, next) {
         });
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500)
+        .json({
+          status: 'error',
+          message: err.detail
+        });
     });
 }
 
@@ -61,7 +69,11 @@ function createNote(req, res, next) {
         });
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500)
+        .json({
+          status: 'error',
+          message: err.detail
+        });
     });
 }
 
@@ -76,7 +88,11 @@ function updateNote(req, res, next) {
         });
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500)
+        .json({
+          status: 'error',
+          message: err.detail
+        });
     });
 }
 
@@ -91,6 +107,10 @@ function removeNote(req, res, next) {
         });
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500)
+        .json({
+          status: 'error',
+          message: err.detail
+        });
     });
 }
