@@ -1,6 +1,8 @@
 var promise = require('bluebird');
 var passport = require('passport');
 
+var authHelpers = require('../auth/helpers');
+
 var options = {
   promiseLib: promise
 };
@@ -17,7 +19,7 @@ function createUser(req, res, next) {
   console.log("creating user");
   db.none('insert into users(username, password)' +
       'values($1, $2)',
-    [req.body.username, req.body.password])
+    [req.body.username, authHelpers.hashPass(req.body.password)])
     .then(function () {
       // log in newly created user
       passport.authenticate('local')

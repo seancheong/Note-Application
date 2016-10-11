@@ -2,6 +2,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var promise = require('bluebird');
 
+var authHelpers = require('./helpers');
+
 var options = {
   promiseLib: promise
 };
@@ -35,7 +37,7 @@ passport.use(new LocalStrategy(strategyOptions, function(username, password, don
         return done(null, false);
       }
 
-      if (password !== user[0].password) {
+      if (!authHelpers.comparePass(password, user[0].password)) {
         console.log("wrong password");
         return done(null, false);
       } else {
