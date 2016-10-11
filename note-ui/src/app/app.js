@@ -10,6 +10,7 @@
     'note-application-project',
     'note-application.login',
     'note-application.register',
+    'note-application.persistence',
     'ui.router'
   ];
 
@@ -38,11 +39,22 @@
     $urlRouterProvider.otherwise( '/home' );
   }
 
-  AppCtrl.$inject = ['$scope', '$location', 'noteService'];
-  function AppCtrl( $scope, $location, noteService) {
+  AppCtrl.$inject = ['$scope', '$location', 'noteService', 'SessionPersistenceService'];
+  function AppCtrl( $scope, $location, noteService, PersistenceService) {
+    $scope.isLoggedIn = false;
+    $scope.username = "";
+
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
       if ( angular.isDefined( toState.data.pageTitle ) ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Note Application' ;
+      }
+    });
+
+    $scope.$on('userSession', function(event, result) {
+      $scope.isLoggedIn = result;
+
+      if($scope.isLoggedIn) {
+        $scope.username = PersistenceService.getUserSession();
       }
     });
 
@@ -57,8 +69,8 @@
   angular.module('note-application-project', _PROJECT_DEPENDENCIES)
          .factory('noteService', noteService);
 
-  noteService.$inject = ['$http', '$q', '$timeout', '$location', 'SessionPersistenceService'];
-  function noteService($http, $q, $timeout, $location, PersistenceService) {
+  noteService.$inject = ['$rootScope', '$http', '$q', '$timeout', '$location', 'SessionPersistenceService'];
+  function noteService($rootScope, $http, $q, $timeout, $location, PersistenceService) {
     var notes = [];
     var selectedNote = null;
 
@@ -185,6 +197,9 @@
 
           PersistenceService.remove();
 
+          // broadcast to tell that user is logged out
+          $rootScope.$broadcast('userSession', false);
+
           $timeout(function () {
             $location.path("/home");
           }, 0);
@@ -207,6 +222,9 @@
 
           PersistenceService.save(response.data.data);
 
+          // broadcast to tell that user is logged in
+          $rootScope.$broadcast('userSession', true);
+
           $timeout(function () {
             $location.path("/home");
           }, 0);
@@ -228,6 +246,9 @@
           console.log("Register successfully");
 
           PersistenceService.save(response.data.data);
+
+          // broadcast to tell that user is logged in
+          $rootScope.$broadcast('userSession', true);
 
           $timeout(function () {
             $location.path("/home");
