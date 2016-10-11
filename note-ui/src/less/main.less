@@ -67,10 +67,28 @@ h2 {
  * Navigation
  */
 
-.navbar {
+.navbar-inverse {
+  background-color: @darkBlue;
+  border-radius: 0 !important;
 
-  small {
-    font-size: 60%;
+  .navbar-nav>li>a {
+    color: white;
+  }
+
+  .navbar-brand {
+    color: white;
+  }
+
+  .navbar-text {
+    color: white;
+  }
+
+  .nav-link {
+    cursor: pointer;
+  }
+
+  .navbar-text {
+    padding-left: 15px;
   }
 }
 
@@ -83,41 +101,10 @@ h2 {
   margin-top: 80px;
 
   .footer-inner {
-    padding: 40px 0;
+    padding: 10px 0;
     border-top: 1px solid #DDD;
   }
-
-  .social {
-    float: right;
-    margin: 0;
-    list-style: none;
-
-    li {
-      float: left;
-      margin-left: 20px;
-
-      a, a:visited {
-        color: @gray-light;
-        text-decoration: none;
-        font-size: 40px;
-        .transition( 250ms ease-in-out );
-
-        &:hover {
-          color: @gray;
-        }
-      }
-    }
-  }
 }
-
-.nav-link {
-  cursor: pointer;
-}
-
-.navbar-text {
-  padding-left: 15px;
-}
-
 
 /**
  * Now that all app-wide styles have been applied, we can load the styles for

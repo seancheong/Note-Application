@@ -1,12 +1,15 @@
 <div class="jumbotron">
-  <h1>Note Application</h1>
+  <h1><i class="fa fa-book" aria-hidden="true"></i> Note Application</h1>
 
   <p class="lead">
     A simple application to manage notes.
   </p>
 </div>
 <div class="notes-container">
-  <ul class="list-group">
+  <h4 ng-if="vm.notes.length == 0">
+    No notes to show at the moment.<br />Please create a new note.
+  </h4>
+  <ul ng-if="vm.notes.length > 0" class="list-group">
     <li ng-repeat="note in vm.notes" class="list-group-item">
       {{note.subject}}
       <div class="list-button-group">
