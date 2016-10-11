@@ -1,4 +1,4 @@
-<form>
+<form class="form-container">
   <div class="form-group">
     <label for="username">Username</label>
     <input
@@ -9,7 +9,7 @@
       ng-model="vm.username">
   </div>
   <div class="form-group">
-    <label for="password">password</label>
+    <label for="password">Password</label>
     <input
       type="password"
       class="form-control"
@@ -17,10 +17,27 @@
       placeholder="Password"
       ng-model="vm.password">
   </div>
-  <button
-    type="submit"
-    class="btn btn-default"
-    ng-click="vm.register()">
-    Submit
-  </button>
+  <div class="form-group">
+    <label for="passwordConfirmation">Password Confirmation</label>
+    <input
+      type="password"
+      class="form-control"
+      id="passwordConfirmation"
+      placeholder="Password Confirmation"
+      ng-model="vm.passwordConfirmation">
+  </div>
+  <div class="buttons-group">
+    <button
+      class="btn btn-secondary"
+      ng-click="vm.backToHome()">
+      <i class="fa fa-undo" aria-hidden="true"></i>
+      Back
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      ng-click="vm.register()">
+      Register
+    </button>
+  </div>
 </form>

@@ -29,11 +29,17 @@
     var vm = this;
     vm.username = "";
     vm.password = "";
+    vm.passwordConfirmation = "";
 
     vm.register = register;
+    vm.backToHome = backToHome;
 
     function register() {
       noteService.register(vm.username, vm.password);
+    }
+
+    function backToHome() {
+      noteService.backToHome();
     }
   }
 

@@ -31,9 +31,14 @@
     vm.password = "";
 
     vm.login = login;
+    vm.backToHome = backToHome;
 
     function login() {
       noteService.login(vm.username, vm.password);
+    }
+
+    function backToHome() {
+      noteService.backToHome();
     }
   }
 

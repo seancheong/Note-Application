@@ -10,18 +10,37 @@
       disabled>
   </div>
   <div class="form-group">
-    <label for="content">Content</label>
+    <label for="version">Version</label>
     <input
       type="text"
+      class="form-control read-only-input"
+      id="version"
+      placeholder="Version"
+      ng-model="vm.version"
+      disabled>
+  </div>
+  <div class="form-group">
+    <label for="content">Content</label>
+    <textarea
+      rows="5"
       class="form-control"
       id="content"
       placeholder="Content"
       ng-model="vm.editedContent">
+    </textarea>
   </div>
-  <button
-    type="submit"
-    class="btn btn-default"
-    ng-click="vm.editNote()">
-    Edit Note
-  </button>
+  <div class="buttons-group">
+    <button
+      class="btn btn-secondary"
+      ng-click="vm.backToHome()">
+      <i class="fa fa-undo" aria-hidden="true"></i>
+      Back
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      ng-click="vm.editNote()">
+      Edit Note
+    </button>
+  </div>
 </form>

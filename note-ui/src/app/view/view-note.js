@@ -30,9 +30,11 @@
     var selectedNote = null;
 
     vm.subject = "";
+    vm.version = "";
     vm.editedContent = "";
 
     vm.editNote = editNote;
+    vm.backToHome = backToHome;
 
     listSelectedNote();
 
@@ -41,12 +43,17 @@
 
       if(selectedNote) {
         vm.subject = selectedNote.subject;
+        vm.version = selectedNote.version;
         vm.editedContent = selectedNote.content;
       }
     }
 
     function editNote() {
       noteService.editNote(vm.subject, vm.editedContent);
+    }
+
+    function backToHome() {
+      noteService.backToHome();
     }
   }
 

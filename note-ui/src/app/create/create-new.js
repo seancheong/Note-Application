@@ -31,9 +31,14 @@
     vm.newContent = "";
 
     vm.createNote = createNote;
+    vm.backToHome = backToHome;
 
     function createNote() {
       noteService.createNote(vm.newSubject, vm.newContent);
+    }
+
+    function backToHome() {
+      noteService.backToHome();
     }
   }
 

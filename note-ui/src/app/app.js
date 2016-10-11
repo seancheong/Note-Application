@@ -86,6 +86,7 @@
 
     return {
       getSelectedNote: getSelectedNote,
+      backToHome: backToHome,
       listNotes: listNotes,
       createNote: createNote,
       viewNote: viewNote,
@@ -98,6 +99,12 @@
 
     function getSelectedNote() {
       return selectedNote;
+    }
+
+    function backToHome() {
+      $timeout(function () {
+        $location.path("/home");
+      }, 0);
     }
 
     function listNotes() {
