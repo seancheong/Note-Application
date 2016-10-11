@@ -32,7 +32,8 @@
     <button
       type="button"
       class="btn btn-primary"
-      ng-click="vm.goToCreateNew()">
+      ng-click="vm.goToCreateNew()"
+      ng-disabled="vm.notes.length == 0">
       Create New
     </button>
   </div>
