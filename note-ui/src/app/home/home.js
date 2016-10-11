@@ -39,6 +39,12 @@
 
     listNotes();
 
+    $scope.$on('userSession', function(event, result) {
+      if(!result) {
+        vm.notes = [];
+      }
+    });
+
     function listNotes() {
       noteService.listNotes().then(function(notes) {
         vm.notes = notes;

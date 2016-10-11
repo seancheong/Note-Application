@@ -44,6 +44,9 @@
     $scope.isLoggedIn = false;
     $scope.username = "";
 
+    // check to user whether user has logged in
+    checkUserSession();
+
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
       if ( angular.isDefined( toState.data.pageTitle ) ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Note Application' ;
@@ -61,6 +64,13 @@
     $scope.logout = function() {
       noteService.logout();
     };
+
+    function checkUserSession() {
+      if(PersistenceService.getUserSession()) {
+        $scope.isLoggedIn = true;
+        $scope.username = PersistenceService.getUserSession();
+      }
+    }
   }
 
   /*
