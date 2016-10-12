@@ -46,15 +46,15 @@ describe('test note-application-project service', function() {
     location = $location;
 
     // API URLs
-    API_BASE = SettingsService.getApiBase();
-    LIST_NOTES_URL = API_BASE + '/api/notes';
-    CREATE_NOTE_URL = API_BASE + '/api/note';
-    GET_NOTE_URL = API_BASE + '/api/view-note/testSubject';
-    EDIT_NOTE_URL = API_BASE + '/api/note';
-    REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
-    LOGOUT_URL = API_BASE + '/users/logout';
-    LOGIN_URL = API_BASE + '/users/login';
-    REGISTER_URL = API_BASE + '/users/register';
+    var API = SettingsService.getApiUrl();
+    var LIST_NOTES_URL = API.listNotesUrl;
+    var CREATE_NOTE_URL =  API.createNoteUrl;
+    var GET_NOTE_URL =  API.getNoteUrl;
+    var EDIT_NOTE_URL =  API.editNoteUrl;
+    var REMOVE_NOTE_URL =  API.removeNoteUrl;
+    var LOGOUT_URL =  API.logoutUrl;
+    var LOGIN_URL =  API.loginUrl;
+    var REGISTER_URL = API.registerUrl;
 
     spyOn(location, 'path');
   }));

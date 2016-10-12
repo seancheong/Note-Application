@@ -82,15 +82,15 @@
     var notes = [];
     var selectedNote = null;
 
-    var API_BASE = SettingsService.getApiBase();
-    var LIST_NOTES_URL = API_BASE + '/api/notes';
-    var CREATE_NOTE_URL = API_BASE + '/api/note';
-    var GET_NOTE_URL = API_BASE + '/api/view-note/{subject}';
-    var EDIT_NOTE_URL = API_BASE + '/api/note';
-    var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
-    var LOGOUT_URL = API_BASE + '/users/logout';
-    var LOGIN_URL = API_BASE + '/users/login';
-    var REGISTER_URL = API_BASE + '/users/register';
+    var API = SettingsService.getApiUrl();
+    var LIST_NOTES_URL = API.listNotesUrl;
+    var CREATE_NOTE_URL =  API.createNoteUrl;
+    var GET_NOTE_URL =  API.getNoteUrl;
+    var EDIT_NOTE_URL =  API.editNoteUrl;
+    var REMOVE_NOTE_URL =  API.removeNoteUrl;
+    var LOGOUT_URL =  API.logoutUrl;
+    var LOGIN_URL =  API.loginUrl;
+    var REGISTER_URL = API.registerUrl;
 
     return {
       getSelectedNote: getSelectedNote,

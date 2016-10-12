@@ -1,7 +1,16 @@
 (function(angular, undefined) {
   'use strict';
-
-  var _API_BASE = 'http://54.254.198.177:3000';
+  
+  var _API_URL = {
+    listNotesUrl: '/api/notes',
+    createNoteUrl: '/api/note',
+    getNoteUrl: '/api/view-note/{subject}',
+    editNoteUrl: '/api/note',
+    removeNoteUrl: '/api/delete-note',
+    logoutUrl: '/users/logout',
+    loginUrl: '/users/login',
+    registerUrl: '/users/register'
+  };
 
   var _DEPENDENCIES = [
 
@@ -12,11 +21,11 @@
 
   function SettingsService() {
     return {
-      getApiBase: getApiBase
+      getApiUrl: getApiUrl
     };
 
-    function getApiBase() {
-      return _API_BASE;
+    function getApiUrl() {
+      return _API_URL;
     }
   }
 

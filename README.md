@@ -48,9 +48,9 @@ grunt compile
 grunt clean
 ```
 
-### Microservice Connections
+### Microservice APIs
 
-In order to call the APIs inside the microservice server, insert the API base url inside `_API_BASE` in *./src/app/settings/settings.js*, e.g. `http://<IP_ADDRESS>:3000`
+All the microservice APIs are defined in `_API_URL` inside *./src/app/settings/settings.js*
 
 
 ### Code coverage

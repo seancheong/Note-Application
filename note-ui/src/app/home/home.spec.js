@@ -24,8 +24,7 @@ describe( 'home', function() {
     HomeController = $controller( 'HomeController', { $timeout: timeout, $location: location, $scope: scope, noteService: noteService });
 
     // API URLs
-    API_BASE = SettingsService.getApiBase();
-    LIST_NOTES_URL = API_BASE + '/api/notes';
+    LIST_NOTES_URL = SettingsService.getApiUrl().listNotesUrl;
   }));
 
   it('should initialize the controller', inject( function() {
