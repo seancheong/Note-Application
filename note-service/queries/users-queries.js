@@ -1,4 +1,8 @@
+var passport = require('passport');
+
+var authHelpers = require('../auth/helpers');
 var settings = require('../settings');
+
 var db = settings.getDbConnection();
 
 module.exports = {
