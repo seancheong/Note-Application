@@ -11,7 +11,9 @@
     'note-application.login',
     'note-application.register',
     'note-application.persistence',
+    'note-application.logout-confirm',
     'ui.router',
+    'ui.bootstrap',
     'angular-growl'
   ];
 
@@ -37,8 +39,8 @@
     growlProvider.globalTimeToLive(5000);
   }
 
-  AppCtrl.$inject = ['$scope', '$location', 'noteService', 'SessionPersistenceService'];
-  function AppCtrl( $scope, $location, noteService, PersistenceService) {
+  AppCtrl.$inject = ['$scope', '$location', '$uibModal', 'noteService', 'SessionPersistenceService'];
+  function AppCtrl( $scope, $location, $uibModal, noteService, PersistenceService) {
     $scope.isLoggedIn = false;
     $scope.username = "";
 
@@ -60,7 +62,22 @@
     });
 
     $scope.logout = function() {
-      noteService.logout();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'modal/modal-logout.tpl.html',
+        controller: 'LogoutConfirmationController',
+        // controllerAs: 'vm',
+        size: 'md',
+        scope: $scope,
+        keyboard: false,
+        backdrop: 'static'
+      });
+
+      modalInstance.result.then(function(command) {
+        if(command === 'logout') {
+          noteService.logout();
+        }
+      });
     };
 
     function checkUserSession() {
