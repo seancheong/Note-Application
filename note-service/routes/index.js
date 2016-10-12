@@ -25,7 +25,8 @@ router.put('/api/note', isLoggedIn, db.updateNote);
 router.post('/api/delete-note', isLoggedIn, db.removeNote);
 
 function isLoggedIn(req, res, next) {
-  if(req.body.usernameSession) {
+  console.log(req.user);
+  if(req.user) {
     return next();
   }
   console.log("user didn't log in");

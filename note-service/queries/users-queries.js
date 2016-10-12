@@ -15,8 +15,6 @@ function createUser(req, res, next) {
       'values($1, $2)',
     [req.body.username, authHelpers.hashPass(req.body.password)])
     .then(function () {
-      // log in newly created user
-      passport.authenticate('local')
 
       res.status(200)
         .json({
