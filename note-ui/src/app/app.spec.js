@@ -295,6 +295,13 @@ describe('test note-application-project service', function() {
       }
     );
 
+    httpBackend.expectPOST(LOGIN_URL).respond(
+      {
+        "status": "success",
+        "message": "Login successfully"
+      }
+    );
+
     noteService.register(username, password);
     httpBackend.flush();
     timeout.flush();

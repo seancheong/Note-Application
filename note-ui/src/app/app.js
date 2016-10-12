@@ -260,12 +260,8 @@
         function(response) {
           console.log("Register successfully");
 
-          PersistenceService.save(response.data.data);
-
-          // broadcast to tell that user is logged in
-          $rootScope.$broadcast('userSession', true);
-
-          redirectTo('/home');
+          // login newly registered user
+          login(username, password);
         },
         function(error) {
           console.log(error);
