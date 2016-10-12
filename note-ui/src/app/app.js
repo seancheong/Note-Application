@@ -139,6 +139,12 @@
         },
         function(error) {
           reject(error);
+          if(error.status === 401) {
+            PersistenceService.remove();
+
+            // broadcast to tell that user is logged out
+            $rootScope.$broadcast('userSession', false);
+          }
         });
       });
     }
@@ -292,6 +298,14 @@
 
       if(error.data) {
         growl.error(error.data.message);
+      }
+
+      if(error.status === 401) {
+        PersistenceService.remove();
+
+        // broadcast to tell that user is logged out
+        $rootScope.$broadcast('userSession', false);
+        redirectTo('/home');
       }
     }
   }
