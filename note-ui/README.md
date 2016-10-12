@@ -41,6 +41,11 @@ grunt clean
 ```
 
 
+## Microservice Connections
+
+In order to call the APIs inside the microservice server, insert the API base url inside `_API_BASE` in *./src/app/settings/settings.js*, e.g. `http://<IP_ADDRESS>:3000`
+
+
 ## Code coverage
 
 Whenever `grunt build/watch` is executed, Karma runs all tests with `*.spec.js` extension. After that, a coverage report is generated under the `unit_test_coverage/report` directory
