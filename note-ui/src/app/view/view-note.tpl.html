@@ -1,4 +1,4 @@
-<form>
+<form name="editForm" novalidate>
   <div class="form-group">
     <label for="subject">Subject</label>
     <input
@@ -19,15 +19,24 @@
       ng-model="vm.version"
       disabled>
   </div>
-  <div class="form-group">
+  <div
+    class="form-group"
+    ng-class="{ 'has-error' : editForm.content.$invalid && !editForm.content.$pristine }">
     <label for="content">Content</label>
     <textarea
       rows="5"
       class="form-control"
       id="content"
+      name="content"
       placeholder="Content"
-      ng-model="vm.editedContent">
+      ng-model="vm.editedContent"
+      required>
     </textarea>
+    <p
+      ng-show="editForm.content.$invalid && !editForm.content.$pristine"
+      class="help-block">
+      Content cannot be blank
+    </p>
   </div>
   <div class="buttons-group">
     <button
@@ -39,7 +48,8 @@
     <button
       type="submit"
       class="btn btn-primary"
-      ng-click="vm.editNote()">
+      ng-click="vm.editNote()"
+      ng-disabled="editForm.$invalid || editForm.content.$pristine">
       Edit Note
     </button>
   </div>
