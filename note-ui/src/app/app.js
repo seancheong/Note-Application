@@ -114,12 +114,8 @@
     }
 
     function listNotes() {
-      var data = {
-        usernameSession: PersistenceService.getUserSession()
-      };
-
       return $q(function(resolve, reject) {
-        $http.post(LIST_NOTES_URL, data).then(function(response) {
+        $http.post(LIST_NOTES_URL).then(function(response) {
           notes = response.data.data;
           console.log("Succesfully listed all notes: " + notes);
           resolve(notes);
@@ -133,8 +129,7 @@
     function createNote(newSubject, newContent) {
       var data = {
         subject: newSubject,
-        content: newContent,
-        usernameSession: PersistenceService.getUserSession()
+        content: newContent
       };
 
       $http.post(CREATE_NOTE_URL, data).then(
@@ -152,11 +147,7 @@
     function viewNote(subject) {
       var url = GET_NOTE_URL.replace('{subject}', subject);
 
-      var data = {
-        usernameSession: PersistenceService.getUserSession()
-      };
-
-      $http.post(url, data).then(
+      $http.post(url).then(
         function(response) {
           console.log("Note retrieved successfully");
           selectedNote = response.data.data;
@@ -172,8 +163,7 @@
     function editNote(subject, content) {
       var data = {
         subject: subject,
-        content: content,
-        usernameSession: PersistenceService.getUserSession()
+        content: content
       };
 
       $http.put(EDIT_NOTE_URL, data).then(
@@ -191,8 +181,7 @@
     function removeNote(subject) {
       return $q(function(resolve, reject) {
         var data = {
-          subject: subject,
-          usernameSession: PersistenceService.getUserSession()
+          subject: subject
         };
 
         $http.post(REMOVE_NOTE_URL, data).then(
