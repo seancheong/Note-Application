@@ -3,7 +3,7 @@
   "name": "note-service",
   "description": "Microservice for note-application",
   "version": "1.0.0",
-  "license": "ISC",
+  "licenses": "ISC",
   "scripts": {
     "start": "node ./bin/www"
   },

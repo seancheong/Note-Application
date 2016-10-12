@@ -3,7 +3,7 @@
   "name": "note-ui",
   "description": "UI for note-application",
   "version": "1.0.0",
-  "license": "ISC",
+  "licenses": "ISC",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
