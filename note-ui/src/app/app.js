@@ -152,6 +152,7 @@
       $http.post(CREATE_NOTE_URL, data).then(
         function(response) {
           console.log("Note created successfully");
+          growl.success("Created successfully");
 
           redirectTo('/home');
         },
@@ -187,6 +188,7 @@
       $http.put(EDIT_NOTE_URL, data).then(
         function(response) {
           console.log("Note edited successfully");
+          growl.success("Edited successfully");
 
           redirectTo('/home');
         },
@@ -206,6 +208,7 @@
         $http.post(REMOVE_NOTE_URL, data).then(
           function(response) {
             console.log("Note removed successfully");
+            growl.success("Removed successfully");
             resolve(response);
           },
           function(error) {
