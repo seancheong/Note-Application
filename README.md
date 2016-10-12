@@ -73,6 +73,12 @@ cd note-service/
 npm install
 ```
 
+**start** - starts the express server that serves the microservice at `http://localhost:3000`
+
+```shell
+npm start
+```
+
 #### Postgres Setup
 
 For simplicity, a schema script has been created under *./schemas/notes.sql*, it will auto generate the database (noteapp_db) and the table (notes, users) needed for this application.
