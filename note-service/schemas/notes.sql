@@ -4,7 +4,8 @@ CREATE DATABASE noteapp_db;
 \c noteapp_db;
 
 CREATE TABLE notes (
-  subject VARCHAR PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
+  subject VARCHAR,
   content VARCHAR,
   version INTEGER,
   username VARCHAR

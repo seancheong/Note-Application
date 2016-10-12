@@ -144,8 +144,8 @@
       );
     }
 
-    function viewNote(subject) {
-      var url = GET_NOTE_URL.replace('{subject}', subject);
+    function viewNote(id, subject) {
+      var url = GET_NOTE_URL.replace('{id}', id).replace('{subject}', subject);
 
       $http.post(url).then(
         function(response) {
@@ -160,8 +160,9 @@
       );
     }
 
-    function editNote(subject, content) {
+    function editNote(id, subject, content) {
       var data = {
+        id: id,
         subject: subject,
         content: content
       };
@@ -178,9 +179,10 @@
       );
     }
 
-    function removeNote(subject) {
+    function removeNote(id, subject) {
       return $q(function(resolve, reject) {
         var data = {
+          id: id,
           subject: subject
         };
 

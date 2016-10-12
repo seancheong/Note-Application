@@ -16,13 +16,13 @@
         <button
           type="button"
           class="btn btn-info"
-          ng-click="vm.viewNote(note.subject)">
+          ng-click="vm.viewNote(note.id, note.subject)">
           View
         </button>
         <button
           type="button"
           class="btn btn-danger"
-          ng-click="vm.removeNote(note.subject)">
+          ng-click="vm.removeNote(note.id, note.subject)">
           Delete
         </button>
       </div>

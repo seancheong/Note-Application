@@ -63,12 +63,12 @@
       }, 0);
     }
 
-    function viewNote(subject) {
-      noteService.viewNote(subject);
+    function viewNote(id, subject) {
+      noteService.viewNote(id, subject);
     }
 
-    function removeNote(subject) {
-      noteService.removeNote(subject).then(
+    function removeNote(id, subject) {
+      noteService.removeNote(id, subject).then(
         function(response) {
           listNotes();
         },

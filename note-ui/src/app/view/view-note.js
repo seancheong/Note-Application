@@ -29,6 +29,7 @@
     var vm = this;
     var selectedNote = null;
 
+    vm.id = "";
     vm.subject = "";
     vm.version = "";
     vm.editedContent = "";
@@ -42,6 +43,7 @@
       selectedNote = noteService.getSelectedNote();
 
       if(selectedNote) {
+        vm.id = selectedNote.id;
         vm.subject = selectedNote.subject;
         vm.version = selectedNote.version;
         vm.editedContent = selectedNote.content;
@@ -49,7 +51,7 @@
     }
 
     function editNote() {
-      noteService.editNote(vm.subject, vm.editedContent);
+      noteService.editNote(vm.id, vm.subject, vm.editedContent);
     }
 
     function backToHome() {

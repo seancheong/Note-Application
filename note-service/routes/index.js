@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.post('/api/notes', isLoggedIn, db.listNotes);
 
 // get single note
-router.post('/api/view-note/:subject', isLoggedIn, db.getNote);
+router.post('/api/view-note/:id/:subject', isLoggedIn, db.getNote);
 
 // create new note
 router.post('/api/note', isLoggedIn, db.createNote);

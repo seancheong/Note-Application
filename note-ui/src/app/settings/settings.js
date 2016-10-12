@@ -1,10 +1,10 @@
 (function(angular, undefined) {
   'use strict';
-  
+
   var _API_URL = {
     listNotesUrl: '/api/notes',
     createNoteUrl: '/api/note',
-    getNoteUrl: '/api/view-note/{subject}',
+    getNoteUrl: '/api/view-note/{id}/{subject}',
     editNoteUrl: '/api/note',
     removeNoteUrl: '/api/delete-note',
     logoutUrl: '/users/logout',
