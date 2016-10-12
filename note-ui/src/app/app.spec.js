@@ -28,30 +28,33 @@ describe('test note-application-project service', function() {
 
   beforeEach( module('note-application-project'));
 
-  var noteService, scope, httpBackend, timeout, location;
+  var noteService, SettingsService, scope, httpBackend, timeout, location;
+
+  var API_BASE, LIST_NOTES_URL, CREATE_NOTE_URL, GET_NOTE_URL, EDIT_NOTE_URL, REMOVE_NOTE_URL, LOGOUT_URL, LOGIN_URL, REGISTER_URL;
 
   var subject = "testSubject";
   var content = "testContent";
   var username = "testuser";
   var password = "1234";
 
-  // API URLs
-  var API_BASE = 'http://54.254.198.177:3000';
-  var LIST_NOTES_URL = API_BASE + '/api/notes';
-  var CREATE_NOTE_URL = API_BASE + '/api/note';
-  var GET_NOTE_URL = API_BASE + '/api/view-note/testSubject';
-  var EDIT_NOTE_URL = API_BASE + '/api/note';
-  var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
-  var LOGOUT_URL = API_BASE + '/users/logout';
-  var LOGIN_URL = API_BASE + '/users/login';
-  var REGISTER_URL = API_BASE + '/users/register';
-
-  beforeEach( inject( function(_noteService_, $rootScope, $httpBackend, $timeout, $location) {
+  beforeEach( inject( function(_noteService_, _SettingsService_, $rootScope, $httpBackend, $timeout, $location) {
     noteService = _noteService_;
+    SettingsService = _SettingsService_;
     scope = $rootScope.$new();
     httpBackend = $httpBackend;
     timeout = $timeout;
     location = $location;
+
+    // API URLs
+    API_BASE = SettingsService.getApiBase();
+    LIST_NOTES_URL = API_BASE + '/api/notes';
+    CREATE_NOTE_URL = API_BASE + '/api/note';
+    GET_NOTE_URL = API_BASE + '/api/view-note/testSubject';
+    EDIT_NOTE_URL = API_BASE + '/api/note';
+    REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
+    LOGOUT_URL = API_BASE + '/users/logout';
+    LOGIN_URL = API_BASE + '/users/login';
+    REGISTER_URL = API_BASE + '/users/register';
 
     spyOn(location, 'path');
   }));

@@ -8,22 +8,24 @@ describe( 'home', function() {
   beforeEach( module('note-application.home'));
   beforeEach( module('note-application-project'));
 
-  var HomeController, timeout, location, scope, httpBackend, noteService;
+  var HomeController, timeout, location, scope, httpBackend, noteService, SettingsService;
 
-  // API URLs
-  var API_BASE = 'http://54.254.198.177:3000/api';
-  var LIST_NOTES_URL = API_BASE + '/notes';
-  var CREATE_NOTE_URL = API_BASE + '/note';
+  var API_BASE, LIST_NOTES_URL;
 
   var testNotes = ['testNote1', 'testNote2'];
 
-  beforeEach( inject( function( $controller, $timeout, $location, $rootScope, $httpBackend, _noteService_ ) {
+  beforeEach( inject( function( $controller, $timeout, $location, $rootScope, $httpBackend, _noteService_, _SettingsService_ ) {
     timeout = $timeout;
     location = $location;
     scope = $rootScope.$new();
     httpBackend = $httpBackend;
     noteService = _noteService_;
+    SettingsService = _SettingsService_;
     HomeController = $controller( 'HomeController', { $timeout: timeout, $location: location, $scope: scope, noteService: noteService });
+
+    // API URLs
+    API_BASE = SettingsService.getApiBase();
+    LIST_NOTES_URL = API_BASE + '/api/notes';
   }));
 
   it('should initialize the controller', inject( function() {

@@ -17,18 +17,9 @@
 
   var _PROJECT_DEPENDENCIES = [
     'note-application.persistence',
+    'note-application.settings',
     'angular-growl'
   ];
-
-  var API_BASE = 'http://54.254.198.177:3000';
-  var LIST_NOTES_URL = API_BASE + '/api/notes';
-  var CREATE_NOTE_URL = API_BASE + '/api/note';
-  var GET_NOTE_URL = API_BASE + '/api/view-note/{subject}';
-  var EDIT_NOTE_URL = API_BASE + '/api/note';
-  var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
-  var LOGOUT_URL = API_BASE + '/users/logout';
-  var LOGIN_URL = API_BASE + '/users/login';
-  var REGISTER_URL = API_BASE + '/users/register';
 
   angular.module( 'note-application', _DEPENDENCIES)
          .config(appConfig)
@@ -86,10 +77,20 @@
   angular.module('note-application-project', _PROJECT_DEPENDENCIES)
          .factory('noteService', noteService);
 
-  noteService.$inject = ['$rootScope', '$http', '$q', '$timeout', '$location', 'growl', 'SessionPersistenceService'];
-  function noteService($rootScope, $http, $q, $timeout, $location, growl, PersistenceService) {
+  noteService.$inject = ['$rootScope', '$http', '$q', '$timeout', '$location', 'growl', 'SessionPersistenceService', 'SettingsService'];
+  function noteService($rootScope, $http, $q, $timeout, $location, growl, PersistenceService, SettingsService) {
     var notes = [];
     var selectedNote = null;
+
+    var API_BASE = SettingsService.getApiBase();
+    var LIST_NOTES_URL = API_BASE + '/api/notes';
+    var CREATE_NOTE_URL = API_BASE + '/api/note';
+    var GET_NOTE_URL = API_BASE + '/api/view-note/{subject}';
+    var EDIT_NOTE_URL = API_BASE + '/api/note';
+    var REMOVE_NOTE_URL = API_BASE + '/api/delete-note';
+    var LOGOUT_URL = API_BASE + '/users/logout';
+    var LOGIN_URL = API_BASE + '/users/login';
+    var REGISTER_URL = API_BASE + '/users/register';
 
     return {
       getSelectedNote: getSelectedNote,
