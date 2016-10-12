@@ -2,6 +2,7 @@
   'use strict';
 
   var _DEPENDENCIES = [
+    'note-application.persistence',
     'ui.router'
   ];
 
@@ -29,19 +30,24 @@
     });
   }
 
-  HomeController.$inject = ['$scope', '$timeout', '$location', 'noteService'];
-  function HomeController($scope, $timeout, $location, noteService) {
+  HomeController.$inject = ['$scope', '$timeout', '$location', 'noteService', 'SessionPersistenceService'];
+  function HomeController($scope, $timeout, $location, noteService, PersistenceService) {
     var vm = this;
     vm.notes = [];
     vm.goToCreateNew = goToCreateNew;
     vm.viewNote = viewNote;
     vm.removeNote = removeNote;
+    var session = PersistenceService.getUserSession();
+    vm.isLoggedIn = (PersistenceService.getUserSession() !== undefined && PersistenceService.getUserSession() !== null);
 
     listNotes();
 
     $scope.$on('userSession', function(event, result) {
       if(!result) {
         vm.notes = [];
+        vm.isLoggedIn = false;
+      } else {
+        vm.isLoggedIn = true;
       }
     });
 
