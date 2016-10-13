@@ -11,7 +11,7 @@
   </h4>
   <ul ng-if="vm.notes.length > 0" class="list-group">
     <li ng-repeat="note in vm.notes" class="list-group-item">
-      {{note.subject}}
+      <span>{{note.subject}}</span>
       <div class="buttons-group">
         <button
           type="button"
